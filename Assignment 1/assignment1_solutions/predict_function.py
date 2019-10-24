@@ -18,8 +18,12 @@ def predict_function(theta, X, y=None):
     #                                                                     #
     #######################################################################
     
-    preds = (tanh(X.dot(theta)) >= 0.5)
-    accuracy = np.mean(y == preds)
+    preds = ( tanh( np.dot(theta, np.transpose(X)) ) >= 0.5 ) * 1
+    
+    if y is None:
+        accuracy = "Ground truth missing. Cannot compute accuracy."
+    else :
+        accuracy = float( np.sum( np.equal(preds, y) * 1) ) / y.size
     
     #######################################################################
     #                         END OF YOUR CODE                            #

@@ -25,7 +25,7 @@ def gradient_function(theta, X, y):
     #                                                                     #
     #######################################################################
     
-    pass
+    grad = np.dot((y-tanh(np.dot(theta, np.transpose(X)))), X)
 
     #######################################################################
     #                         END OF YOUR CODE                            #
