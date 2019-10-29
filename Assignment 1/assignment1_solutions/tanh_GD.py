@@ -32,7 +32,8 @@ def tanh_GD(X, y, num_iter=10000, alpha=0.01):
         #                                                                     #
         #######################################################################
 
-        pass
+        idx = np.random.randint(X.shape[0])
+        theta += alpha*(gradient_function(theta, X[idx], y[idx]))
 
         #######################################################################
         #                         END OF YOUR CODE                            #

@@ -30,10 +30,10 @@ def hog_features(X):
         
         # Extract HOG features
         # Higher accuracy, but slower computations
-        #hog_feat = hog(X_img, orientations=9, pixels_per_cell=(2, 2), cells_per_block=(3, 3), visualize=False) 
+        #hog_feat = hog(X_img, orientations=9, pixels_per_cell=(2, 2), cells_per_block=(3, 3)) 
         
         # Compromise to keep execution time for SGD under 2s
-        hog_feat = hog(X_img, orientations=6, pixels_per_cell=(3, 3), cells_per_block=(1, 1), visualize=False) 
+        hog_feat = hog(X_img, orientations=6, pixels_per_cell=(3, 3), cells_per_block=(1, 1)) 
         
         # Add intercept term
         hog_feat = np.append([1,], np.asarray(hog_feat))
