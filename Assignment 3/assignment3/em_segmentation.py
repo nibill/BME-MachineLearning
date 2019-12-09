@@ -29,24 +29,25 @@ def em_segmentation(img, k, max_iter=20):
     # 3rd: Predict the assignment of the pixels to the gaussian and       #
     #      generate the label-image                                       #
     #######################################################################
-    
-    img = np.array(img, dtype=np.float64) / 255        
-    w, h, d = original_shape = tuple(img.shape)
-    assert d == 3  
-    img = np.reshape(img, (w * h, d))    
-    
-    image_array_sample = shuffle(img, random_state=0)[:1000]
-    clf = GaussianMixture(n_components = k, max_iter = 50,  covariance_type="full").fit(image_array_sample)
-    	
-    labels = clf.predict(img)   
-    pixels = clf.means_    
-    d = pixels.shape[1]
-    label_img = np.zeros((w, h, d))    
-    label_idx = 0
-    for i in range(w):
-        for j in range(h):
-            label_img[i][j] = pixels[labels[label_idx]]
-            label_idx += 1
+
+    h = img.shape[0]
+    w = img.shape[1]
+    cols = img.shape[2]
+
+    xgrid, ygrid = np.meshgrid(np.arange(0, w, 1), np.arange(0, h, 1))
+
+    coords = np.stack((ygrid, xgrid), axis=2)
+    img = np.concatenate((img, coords), axis=2)
+    img = np.reshape(img, (h * w, cols + 2))
+
+    moG = GaussianMixture(n_components=k, max_iter = max_iter).fit(img)
+
+    label_img = moG.predict(img)
+
+    means = np.delete(moG.means_, [3, 4], axis=1).astype('uint8')
+
+    img_temp = np.take(means, label_img, axis=0)
+    label_img = np.reshape(img_temp, (h, w, cols))
 
     #######################################################################
     #                         END OF YOUR CODE                            #

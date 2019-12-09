@@ -36,8 +36,6 @@ def kmeans(X, k, max_iter=100):
     error = np.zeros([X.shape[0], k], dtype=np.float64)
 
     for i in range(max_iter):
-        prev_assign = assign
-
         # 2nd step: Update the cluster assignment
         for i, c in enumerate(centers):
             error[:, i] = getDistance(c, X)
